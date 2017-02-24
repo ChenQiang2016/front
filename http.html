@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="con">
+<div>
+    <ul>
+        <li ng-repeat="item in data">{{item.newsName}}</li>
+    </ul>
+</div>
+<div>
+    <button ng-click="loadMore()">更多</button>
+</div>
+<script src="angularjs/angular.min.js"></script>
+<script>
+
+    var app = angular.module('app',[]);
+
+    app.controller('con',['$scope', '$http', function($scope, $http){
+        $scope.data = [];
+        var params = {currentPage:1};
+        page();
+
+        $scope.loadMore = function(){
+            params.currentPage ++;
+            page();
+        }
+
+        function page(){
+            $http({
+                method:'post',
+                url:'http://www.qiangchen.me/enms/news/page',
+                data:params
+            }).success(function(response){
+                $scope.data = response.data.resultData;
+            });
+        }
+
+    }]);
+
+    app.config(['$httpProvider', function ($httpProvider) {
+        //HTTP 改造
+        // Use x-www-form-urlencoded Content-Type
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        $httpProvider.defaults.withCredentials = true;//允许cookie策略
+        // Override $http service's default transformRequest
+        $httpProvider.defaults.transformRequest = [function (data) {
+            /**
+             * The workhorse; converts an object to x-www-form-urlencoded serialization.
+             * @param {Object} obj
+             * @return {String}
+             */
+            var param = function (obj) {
+                var query = '';
+                var name, value, fullSubName, subName, subValue, innerObj, i;
+                for (name in obj) {
+                    value = obj[name];
+
+                    if (value instanceof Array) {
+                        for (i = 0; i < value.length; ++i) {
+                            subValue = value[i];
+                            fullSubName = name + '[' + i + ']';
+                            innerObj = {};
+                            innerObj[fullSubName] = subValue;
+                            query += param(innerObj) + '&';
+                        }
+                    }
+                    else if (value instanceof Object) {
+                        for (subName in value) {
+                            subValue = value[subName];
+                            if (subValue != null) {
+                                fullSubName = name + '.' + subName;
+                                innerObj = {};
+                                innerObj[fullSubName] = subValue;
+                                query += param(innerObj) + '&';
+                            }
+                        }
+                    }
+                    else if (value !== undefined) { //&& value !== null
+                        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+                    }
+                }
+                return query.length ? query.substr(0, query.length - 1) : query;
+            };
+            return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+        }];
+    }]);
+
+</script>
+</body>
+</html>

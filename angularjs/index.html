@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="angular.min.js"></script>
+</head>
+<body ng-controller="con">
+<div id="d">
+    <p>{{msg}}</p>
+</div>
+<input type="text" ng-model="name">
+<input type="file" ng-model="file" value="{{file}}"><button ng-click="show()">获取</button>
+<script>
+
+    var app = angular.module('app',[]);
+
+    app.controller('con',['$scope', '$window',function($scope){
+        $scope.msg = 'hello angularjs';
+        $scope.file = '';
+        $scope.name = '';
+        $scope.show = function(){
+            alert($scope.name);
+        }
+    }]);
+
+</script>
+</body>
+</html>

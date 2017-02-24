@@ -1,0 +1,55 @@
+body{
+    background-color: #d5d5d5;
+}
+.main{
+    width: 70%;
+    background-color: white;
+    margin: 0 auto;
+}
+.main .top{
+    height: 120px;
+    border-bottom: red solid;
+}
+.main .logo{
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+.main .inputDiv{
+    float: right;
+    font-family: "Adobe Caslon Pro";
+    font-size: 12px;
+    margin-right: 50px;
+    margin-top: 30px;
+}
+
+.main .top .headDiv{
+    margin-right: 50px;
+    font-family: "Microsoft YaHei";
+    font-size: 14px;
+    position: relative;
+}
+
+.main .banner{
+    height: 450px;
+    background-image: url("images/banner.jpg");
+}
+.main .content{
+    height: 600px;
+    border-bottom: red solid;
+}
+.main .bottom{
+    height: 40px;
+}
+.main .bottom .textstyle1{
+    font-size: 12px;
+    margin-left: 80px;
+    margin-top: 10px;
+    float: left;
+}
+.main .bottom .textstyle2{
+    font-size: 12px;
+    margin-top: 10px;
+    margin-right: 80px;
+    float: right;
+}
